@@ -1,0 +1,18 @@
+[package]
+name = "umfeld"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Local time, weather and fuel prices for a place as one JSON response, for smart-home displays"
+repository = "https://github.com/CedricFauth/umfeld"
+
+[dependencies]
+axum = "0.8.9"
+chrono = "0.4.45"
+chrono-tz = "0.10.4"
+dotenvy = "0.15.7"
+reqwest = { version = "0.13.5", features = ["query", "json"] }
+serde = { version = "1", features = ["derive"] }
+thiserror = "2.0.20"
+tokio = { version = "1.53.1", features = ["full"] }
+tower_governor = { version = "0.8", features = ["axum"] }
