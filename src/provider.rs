@@ -93,7 +93,7 @@ pub(super) async fn get_weather_data(
     let query = WeatherQuery {
         latitude: place.latitude,
         longitude: place.longitude,
-        daily: "uv_index_max,sunrise,sunset",
+        daily: "temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_hours,precipitation_sum,uv_index_max,sunrise,sunset",
         hourly: "temperature_2m,apparent_temperature,precipitation_probability,precipitation",
         current: "apparent_temperature,temperature_2m,precipitation",
         timezone: &place.timezone,

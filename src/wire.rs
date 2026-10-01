@@ -63,6 +63,11 @@ impl From<Forecast> for Weather {
             },
             daily: DailyWeather {
                 time: forecast.daily.time,
+                temperature_2m_max: forecast.daily.temperature_2m_max,
+                temperature_2m_min: forecast.daily.temperature_2m_min,
+                precipitation_probability_max: forecast.daily.precipitation_probability_max,
+                precipitation_hours: forecast.daily.precipitation_hours,
+                precipitation_sum: forecast.daily.precipitation_sum,
                 uv_index_max: forecast.daily.uv_index_max,
                 sunrise: forecast.daily.sunrise,
                 sunset: forecast.daily.sunset,
@@ -91,6 +96,11 @@ pub struct HourlyBlock {
 #[derive(Debug, Deserialize)]
 pub struct DailyBlock {
     pub time: Vec<String>,
+    pub temperature_2m_max: Vec<f64>,
+    pub temperature_2m_min: Vec<f64>,
+    pub precipitation_probability_max: Vec<u8>,
+    pub precipitation_hours: Vec<f64>,
+    pub precipitation_sum: Vec<f64>,
     pub uv_index_max: Vec<f64>,
     pub sunrise: Vec<String>,
     pub sunset: Vec<String>,

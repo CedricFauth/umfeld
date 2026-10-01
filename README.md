@@ -66,7 +66,9 @@ within 7 km sorted by distance:
                  "apparent_temperature": 19.0, "precipitation": 0.0 },
     "hourly":  { "time": […], "temperature_2m": […], "apparent_temperature": […],
                  "precipitation_probability": […], "precipitation": […] },
-    "daily":   { "time": […], "uv_index_max": […], "sunrise": […], "sunset": […] }
+    "daily":   { "time": […], "temperature_2m_max": […], "temperature_2m_min": […],
+                 "precipitation_probability_max": […], "precipitation_hours": […],
+                 "precipitation_sum": […], "uv_index_max": […], "sunrise": […], "sunset": […] }
   },
   "fuel": [
     { "name": "Shell Dresden Loebtauer Str. 28/30", "brand": "Shell",

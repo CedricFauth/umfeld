@@ -86,6 +86,11 @@ pub struct HourlyWeather {
 #[derive(Debug, Serialize)]
 pub struct DailyWeather {
     pub time: Vec<String>,
+    pub temperature_2m_max: Vec<f64>,
+    pub temperature_2m_min: Vec<f64>,
+    pub precipitation_probability_max: Vec<u8>,
+    pub precipitation_hours: Vec<f64>,
+    pub precipitation_sum: Vec<f64>,
     pub uv_index_max: Vec<f64>,
     pub sunrise: Vec<String>,
     pub sunset: Vec<String>,
