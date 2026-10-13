@@ -56,22 +56,28 @@ within 7 km sorted by distance:
 {
   "success": true,
   "error": null,
-  "datetime": "2026-09-27T18:04:22.176215+02:00",   // in the place's local timezone
+  "timestamp": 1790525062,                          // Unix seconds, when this was generated
   "attribution": [ /* CC BY notices, see below */ ],
   "place": { "name": "Dresden", "latitude": 51.05089, "longitude": 13.73832,
              "elevation": 116.0, "timezone": "Europe/Berlin", "country": "Deutschland",
              "country_code": "DE", "population": 556227 },
   "weather": {
-    "current": { "time": "2026-09-27T18:00", "temperature_2m": 21.2,
-                 "apparent_temperature": 19.0, "precipitation": 0.0 },
-    "hourly":  { "time": […], "temperature_2m": […], "apparent_temperature": […],
-                 "precipitation_probability": […], "precipitation": […] },
-    "daily":   { "time": […], "temperature_2m_max": […], "temperature_2m_min": […],
+    "current": { "time": 1790524800, "weather_code": 2, "condition": "partly_cloudy",
+                 "is_day": true, "temperature_2m": 21.2, "apparent_temperature": 19.0,
+                 "precipitation": 0.0, "wind_speed_10m": 8.3, "wind_gusts_10m": 19.1 },
+    "hourly":  { "time": […], "weather_code": […], "condition": […], "is_day": […],
+                 "temperature_2m": […], "apparent_temperature": […],
+                 "precipitation_probability": […], "precipitation": […],
+                 "wind_speed_10m": […], "wind_gusts_10m": […] },
+    "daily":   { "time": […], "weather_code": […], "condition": […],
+                 "temperature_2m_max": […], "temperature_2m_min": […],
                  "precipitation_probability_max": […], "precipitation_hours": […],
-                 "precipitation_sum": […], "uv_index_max": […], "sunrise": […], "sunset": […] }
+                 "precipitation_sum": […], "uv_index_max": […],
+                 "wind_speed_10m_max": […], "wind_gusts_10m_max": […],
+                 "sunrise": […], "sunset": […] }
   },
   "fuel": [
-    { "name": "Shell Dresden Loebtauer Str. 28/30", "brand": "Shell",
+    { "name": "Shell Dresden Loebtauer Str. 28/30", "brand": "Shell", "display_name": "Shell",
       "street": "Loebtauer Str.", "house_number": "28/30", "post_code": "01159",
       "place": "Dresden", "latitude": 51.051987, "longitude": 13.714982,
       "distance": 1.6, "diesel": 2.429, "e5": 2.349, "e10": 2.289, "is_open": true }
@@ -79,11 +85,26 @@ within 7 km sorted by distance:
 }
 ```
 
-Metric units throughout — °C, mm, %, km, EUR per litre — and ISO 8601 timestamps in the
-place's local time. Failures keep the same shape with `success: false` and a message in
-`error`, so check that field rather than the status code. Requests are limited to one per
-60 seconds globally, refused with `429` and a `Retry-After` header; raise it in
-[`src/main.rs`](src/main.rs) if you drive more than one display.
+Metric units throughout — °C, mm, %, km, km/h, EUR per litre. All times are Unix
+timestamps (seconds, UTC); use `place.timezone` to show local time. `hourly` starts at
+today's local midnight and its entries are always exactly 3600 s apart, also across DST
+changes. Each `daily.time` is the local midnight that starts the day, so DST days are 23 or
+25 hours long.
+
+`weather_code` is a
+[WMO weather interpretation code](https://open-meteo.com/en/docs#weather_variable_documentation)
+(0 = clear sky, 61 = slight rain, 95 = thunderstorm, …). `condition` groups it into one of
+`clear`, `mostly_clear`, `partly_cloudy`, `overcast`, `fog`, `drizzle`, `rain`, `snow` or
+`thunderstorm`, which is enough to pick an icon; together with `is_day` you can pick a
+night variant. Weather values are `null` where Open-Meteo has none.
+
+`display_name` is the station's brand without legal-form suffixes such as GmbH, falling
+back to its name. `place` is title-cased when Tankerkönig sends it in all caps.
+
+Failures keep the same shape with `success: false` and a message in `error`, so check that
+field rather than the status code. Requests are limited to one per 60 seconds globally,
+refused with `429` and a `Retry-After` header; raise it in [`src/main.rs`](src/main.rs) if
+you drive more than one display.
 
 ## Attribution is mandatory
 

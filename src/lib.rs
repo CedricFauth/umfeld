@@ -1,4 +1,4 @@
-use std::{str::FromStr, sync::Arc};
+use std::sync::Arc;
 
 use axum::{
     Json,
@@ -7,10 +7,11 @@ use axum::{
     middleware::Next,
     response::{Html, IntoResponse, Response},
 };
-use chrono::{self, Utc};
-use chrono_tz::{self, Tz};
+use chrono::Utc;
 use serde::Deserialize;
 use tower_governor::GovernorError;
+mod fuel_text;
+mod local_time;
 mod provider;
 pub mod response;
 mod wire;
@@ -28,7 +29,7 @@ impl SnapshotResponse {
         SnapshotResponse {
             success: false,
             error: Some(message),
-            datetime: Utc::now().with_timezone(&chrono_tz::UTC).to_rfc3339(),
+            timestamp: Utc::now().timestamp(),
             attribution: Vec::new(),
             place: None,
             weather: None,
@@ -112,18 +113,10 @@ async fn fetch_data(
         Err(error) => return SnapshotResponse::from_error(error),
     };
 
-    let datetime = match Tz::from_str(&place.timezone) {
-        Ok(tz) => Utc::now().with_timezone(&tz),
-        Err(err) => {
-            eprintln!("error getting timezone, using UTC: {err}");
-            Utc::now().with_timezone(&chrono_tz::UTC)
-        }
-    };
-
     SnapshotResponse {
         success: true,
         error: None,
-        datetime: datetime.to_rfc3339(),
+        timestamp: Utc::now().timestamp(),
         attribution: vec![
             Attribution::open_meteo(),
             Attribution::tankerkoenig(fuel.license),
