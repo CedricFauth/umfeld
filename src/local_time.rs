@@ -8,7 +8,7 @@ use chrono_tz::Tz;
 /// Falls back to UTC if chrono-tz doesn't know the name.
 pub fn parse_tz(name: &str) -> Tz {
     Tz::from_str(name).unwrap_or_else(|err| {
-        eprintln!("error getting timezone, using UTC: {err}");
+        tracing::warn!("error getting timezone, using UTC: {err}");
         chrono_tz::UTC
     })
 }

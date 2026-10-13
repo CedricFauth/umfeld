@@ -15,7 +15,10 @@ reqwest = { version = "0.13.5", features = ["query", "json"] }
 serde = { version = "1", features = ["derive"] }
 thiserror = "2.0.20"
 tokio = { version = "1.53.1", features = ["full"] }
+tower-http = { version = "0.7.1", features = ["trace"] }
 tower_governor = { version = "0.8", features = ["axum"] }
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
 unicode-normalization = "0.1.25"
 
 [dev-dependencies]

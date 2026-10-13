@@ -80,7 +80,7 @@ pub(super) async fn resolve_place(client: &Client, name: &str) -> Result<Place, 
     {
         Ok(resp) => resp,
         Err(error) => {
-            eprintln!("{error}");
+            tracing::error!("{error}");
             return Err(error.into());
         }
     };
@@ -124,7 +124,7 @@ pub(super) async fn get_weather_data(
     {
         Ok(resp) => resp,
         Err(error) => {
-            eprintln!("{error}");
+            tracing::error!("{error}");
             return Err(error.into());
         }
     };
@@ -186,7 +186,7 @@ pub(super) async fn get_fuel_prices(
     {
         Ok(resp) => resp,
         Err(error) => {
-            eprintln!("{error}");
+            tracing::error!("{error}");
             return Err(error.into());
         }
     };
